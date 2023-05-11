@@ -40,6 +40,7 @@ namespace tilemap
 
             base.Initialize();
 
+            // create is under base.Initialize because we want to load the content first.
             chunk.Create();
         }
 

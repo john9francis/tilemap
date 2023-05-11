@@ -17,18 +17,28 @@ namespace tilemap
         private int _width; // how many tiles wide
         private int _height; // how many tiles tall
 
+        private int _tileSize; // how many pixels tall and wide the tile should be
+
         private List<Tile> _tiles = new();
-        private List<string> _map = new List<string> { "0","0","0","block1","0","block1" };
+
+        // defining the map
+        private List<string> _map = new List<string> 
+        { "block1","block1", "block1","block1","block1",
+            "000","000","000","block1","000",
+            "block1","000","block1","block1","000",
+        "block1","block1", "block1","block1","block1",
+        "block1","block1", "block1","block1","block1",
+        "block1","block1", "block1","block1","block1",
+        "block1","block1", "block1","block1","block1",
+        "block1","block1", "block1","block1","block1",};
 
         private Dictionary<string,Texture2D> _possibleTextures = new();
 
-        public Chunk() 
+        public Chunk(int width=5, int height = 5, int tileSize=100) 
         {
-
-        }
-        public Chunk(int size) 
-        {
-
+            _width = width;
+            _height = height;
+            _tileSize = tileSize;
         }
 
         public void SetPossibleTexture(string textureName, Texture2D texture)
@@ -40,9 +50,10 @@ namespace tilemap
         {
             float positionX = 0;
             float positionY = 0;
+            int count = 1;
             for (int i = 0; i < _map.Count; i++)
             {
-                if (_map[i] != "0" && _possibleTextures.ContainsKey(_map[i]))
+                if (_map[i] != "000" && _possibleTextures.ContainsKey(_map[i]))
                 {
                     Tile tile = new Tile();
                     tile.SetTexture(_possibleTextures[_map[i]]);
@@ -51,7 +62,19 @@ namespace tilemap
                     _tiles.Add(tile);
                 }
 
-                positionX += 100;
+                positionX += _tileSize;
+
+                if (i==_width*count)
+                {
+                    positionY += _tileSize;
+                    positionX = 0;
+                    count++;
+                }
+
+                if (positionY/_tileSize >= _height)
+                {
+                    break;
+                }
             }
         }
 
