@@ -16,7 +16,7 @@ namespace tilemap
         private int windowHeight = 1000;
 
         // objects we are going to use:
-        Tile tile1;
+        Chunk chunk;
 
         public Game1()
         {
@@ -31,16 +31,16 @@ namespace tilemap
             _graphics.ApplyChanges();
 
             // create tile object
-            tile1 = new Tile();
+            chunk = new Chunk();
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            tile1.SetPosition(new Vector2(100,100));
-
 
             base.Initialize();
+
+            chunk.Create();
         }
 
         protected override void LoadContent()
@@ -48,7 +48,7 @@ namespace tilemap
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            tile1.SetTexture(Content.Load<Texture2D>("Tiles/block1"));
+            chunk.SetPossibleTexture("block1",Content.Load<Texture2D>("Tiles/block1"));
         }
 
         protected override void Update(GameTime gameTime)
@@ -66,7 +66,7 @@ namespace tilemap
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            tile1.Draw(_spriteBatch);
+            chunk.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
