@@ -41,6 +41,9 @@ namespace tilemap
             base.Initialize();
 
             // create is under base.Initialize because we want to load the content first.
+            chunk.SetChunkPosition(new Vector2(100, 100));
+            chunk.SetTileSize(100);
+            chunk.SetChunkSize(3,3);
             chunk.Create();
         }
 

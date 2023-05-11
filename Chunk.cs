@@ -21,16 +21,19 @@ namespace tilemap
 
         private List<Tile> _tiles = new();
 
+        private Vector2 _position = Vector2.Zero; // the position of the upper left hand corner of the chunk
+
         // defining the map
+        // (next step would be having this in a file or something)
         private List<string> _map = new List<string> 
-        { "block1","block1", "block1","block1","block1",
-            "000","000","000","block1","000",
-            "block1","000","block1","block1","000",
-        "block1","block1", "block1","block1","block1",
-        "block1","block1", "block1","block1","block1",
-        "block1","block1", "block1","block1","block1",
-        "block1","block1", "block1","block1","block1",
-        "block1","block1", "block1","block1","block1",};
+        { "block1","000","block1","000",
+        "block1","000","block1","000",
+        "block1","000","block1","000",
+        "block1","000","block1","000",
+        "block1","000","block1","000",
+        "block1","000","block1","000",
+        "block1","000","block1","000",
+        "block1","000","block1","000",};
 
         private Dictionary<string,Texture2D> _possibleTextures = new();
 
@@ -41,40 +44,57 @@ namespace tilemap
             _tileSize = tileSize;
         }
 
+        public void SetChunkSize(int width, int height)
+        {
+            _width = width;
+            _height = height;
+        }
+
+        public void SetTileSize(int tileSize)
+        {
+            _tileSize = tileSize;
+        }
+
         public void SetPossibleTexture(string textureName, Texture2D texture)
         {
             _possibleTextures.Add(textureName,texture);
         }
 
+        public void SetChunkPosition(Vector2 position)
+        {
+            _position = position;
+        }
+
         public void Create()
         {
-            float positionX = 0;
-            float positionY = 0;
+            // creates one chunk
+            float posX = _position.X;
+            float posY = _position.Y;
             int count = 1;
             for (int i = 0; i < _map.Count; i++)
             {
-                if (_map[i] != "000" && _possibleTextures.ContainsKey(_map[i]))
+                if (i == _width * count)
                 {
-                    Tile tile = new Tile();
-                    tile.SetTexture(_possibleTextures[_map[i]]);
-                    tile.SetPosition(new Vector2(positionX, positionY));
-                    tile.SetHitbox(100,100);
-                    _tiles.Add(tile);
-                }
-
-                positionX += _tileSize;
-
-                if (i==_width*count)
-                {
-                    positionY += _tileSize;
-                    positionX = 0;
+                    posY += _tileSize;
+                    posX = _position.X;
                     count++;
                 }
 
-                if (positionY/_tileSize >= _height)
+                if (posY >= _height * _tileSize + _position.Y)
                 {
                     break;
                 }
+
+                if (_map[i] != "000" && _possibleTextures.ContainsKey(_map[i]))
+                {
+                    Tile tile = new();
+                    tile.SetTexture(_possibleTextures[_map[i]]);
+                    tile.SetPosition(new Vector2(posX, posY));
+                    tile.SetHitbox(_tileSize,_tileSize);
+                    _tiles.Add(tile);
+                }
+
+                posX += _tileSize;
             }
         }
 
