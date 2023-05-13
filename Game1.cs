@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace tilemap
 {
@@ -43,8 +44,14 @@ namespace tilemap
             // create is under base.Initialize because we want to load the content first.
             chunk.SetChunkPosition(new Vector2(100, 100));
             chunk.SetTileSize(100);
-            chunk.SetChunkSize(3,3);
+            chunk.SetChunkSize(5,5);
+            foreach (string s in chunk.GetChunkList())
+            {
+                Debug.WriteLine(s);
+
+            }
             chunk.Create();
+            
         }
 
         protected override void LoadContent()
@@ -53,6 +60,10 @@ namespace tilemap
 
             // TODO: use this.Content to load your game content here
             chunk.SetPossibleTexture("block1",Content.Load<Texture2D>("Tiles/block1"));
+
+            // load the chunk list
+            chunk.SetChunkList(chunk.ReadListFromFile("ChunkFiles/01.txt"));
+
         }
 
         protected override void Update(GameTime gameTime)

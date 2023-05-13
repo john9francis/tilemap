@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
@@ -25,15 +26,7 @@ namespace tilemap
 
         // defining the map
         // (next step would be having this in a file or something)
-        private List<string> _map = new List<string> 
-        { "block1","000","block1","000",
-        "block1","000","block1","000",
-        "block1","000","block1","000",
-        "block1","000","block1","000",
-        "block1","000","block1","000",
-        "block1","000","block1","000",
-        "block1","000","block1","000",
-        "block1","000","block1","000",};
+        private List<string> _map = new List<string>();
 
         private Dictionary<string,Texture2D> _possibleTextures = new();
 
@@ -43,6 +36,8 @@ namespace tilemap
             _height = height;
             _tileSize = tileSize;
         }
+
+        #region Getters and Setters
 
         public void SetChunkSize(int width, int height)
         {
@@ -64,6 +59,18 @@ namespace tilemap
         {
             _position = position;
         }
+
+        public void SetChunkList(List<string> list)
+        {
+            _map = list;
+        }
+
+        public List<string> GetChunkList()
+        {
+            return _map;
+        }
+
+        #endregion
 
         public void Create()
         {
@@ -106,5 +113,34 @@ namespace tilemap
             }
             
         }
+
+        // functions to save and load to file
+        public void WriteListToFile(List<string> list, string filePath)
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (var item in list)
+                {
+                    writer.WriteLine(item);
+                }
+            }
+        }
+
+        public List<string> ReadListFromFile(string filePath)
+        {
+            List<string> list = new List<string>();
+
+            using (StreamReader reader = new StreamReader("C:/Users/john9/OneDrive/Desktop/My own projects/GitHub/tilemap/" + filePath))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    list.Add(line);
+                }
+            }
+
+            return list;
+        }
     }
 }
+
