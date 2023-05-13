@@ -1,5 +1,5 @@
-0,0,0,0,block1,
-0,0,0,block1,block1,
-0,0,block1,block1,block1
-0,block1,block1,block1,block1,
-block1,block1,block1,block1,block1,
+lebroof01,broof01,broof01,rebroof01,
+leb01,bw01,bw01,reb01,
+leb01,bw01,bw01,reb01,
+leb01,b01,b01,reb01,
+

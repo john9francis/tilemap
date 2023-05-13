@@ -10,6 +10,9 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Diagnostics;
+using System.IO.Enumeration;
+using Microsoft.Xna.Framework.Content;
 
 namespace tilemap
 {
@@ -20,21 +23,32 @@ namespace tilemap
 
         private int _tileSize; // how many pixels tall and wide the tile should be
 
-        private List<Tile> _tiles = new();
+        private List<Tile> _tiles = new(); // list of tiles
 
         private Vector2 _position = Vector2.Zero; // the position of the upper left hand corner of the chunk
 
-        // defining the map
-        // (next step would be having this in a file or something)
-        private List<string> _map = new List<string>();
+        private List<string> _map = new List<string>(); // each entry in the _map will be a tilename or a 0
 
         private Dictionary<string, Texture2D> _possibleTextures = new();
 
-        public Chunk(int width = 5, int height = 5, int tileSize = 100)
+        private string _textureFolderName = "City1"; // the folder in the content that holds our tiles
+        private string _fileFolderName = "ChunkFiles"; // the folder that has our .txt file with our map
+        private string _fileName = "01.txt";
+
+        //private Texture2D test = ContentManager.Content.Load<Texture2D>("City1/01");
+            
+        public Chunk(string textureFolder, string fileFolder, string fileName)
         {
-            _width = width;
-            _height = height;
-            _tileSize = tileSize;
+            // set the chunk based on the file
+            _textureFolderName = textureFolder;
+            _fileFolderName = fileFolder;
+            _fileName = fileName;
+
+            _map = ReadListFromFile(_fileFolderName + "/" + _fileName);
+
+            // testing if I can get content in here
+            //Content.RootDirectory = "Content";
+
         }
 
         #region Getters and Setters
@@ -70,6 +84,21 @@ namespace tilemap
             return _map;
         }
 
+        public string GetTextureFolder()
+        {
+            return _textureFolderName;
+        }
+
+        public string GetFileFolder()
+        {
+            return _fileFolderName;
+        }
+
+        public string GetFile()
+        {
+            return _fileName;
+        }
+
         #endregion
 
         public void Create()
@@ -92,7 +121,7 @@ namespace tilemap
                     break;
                 }
 
-                if (_map[i] != "000" && _possibleTextures.ContainsKey(_map[i]))
+                if (_possibleTextures.ContainsKey(_map[i]))
                 {
                     Tile tile = new();
                     tile.SetTexture(_possibleTextures[_map[i]]);
@@ -105,6 +134,30 @@ namespace tilemap
             }
         }
 
+        public void Load(ContentManager content)
+        {
+            // put all the files that are in the content folder into the possibleTextures list in the chunk
+            // setting the directory
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string baseDirectory = GetBaseDirectory(currentDirectory);
+            string root = baseDirectory + "\\tilemap\\Content\\" + GetTextureFolder() + "\\" + "Building1" + "\\";
+
+            // getting all the strings of the filenames
+            var files = from file in Directory.EnumerateFiles(root) select file;
+            foreach (var file in files)
+            {
+                // get rid of the whole path except the literal name of the file
+                string[] allPathFolders = file.Split("\\");
+                string fullFilename = allPathFolders.Last();
+                string[] seperatedFilename = fullFilename.Split(".");
+                string fileName = seperatedFilename[0];
+
+                // now add this to the list of possible textures in the chunk class:
+                SetPossibleTexture(fileName, content.Load<Texture2D>(GetTextureFolder() + "/Building1/" + fileName));
+
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Tile tile in _tiles)
@@ -113,6 +166,8 @@ namespace tilemap
             }
 
         }
+
+        
 
         // functions to save and load to file
         public void WriteListToFile(List<string> list, string filePath)
@@ -131,24 +186,52 @@ namespace tilemap
             string currentDirectory = Directory.GetCurrentDirectory();
             string baseDirectory = GetBaseDirectory(currentDirectory);
             string filePath = Path.Combine(baseDirectory, "tilemap", fileName);
-            List<string> list = new List<string>();
+            List<string> rowList = new List<string>();
 
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    list.Add(line);
+                    rowList.Add(line);
+                }
+            }
+
+            // get the width and height of the data & set the chunk size
+            int rows = rowList.Count;
+            string[] firstRow = rowList[0].Split(',');
+            
+            // don't forget to get rid of empty characters in the first row:
+            List<string> firstRow_ = new();
+            for (int i = 0; i < firstRow.Count(); i++)
+            {
+                if (firstRow[i] != "")
+                    firstRow_.Add(firstRow[i]);
+            }
+            int columns = firstRow_.Count();
+
+            SetChunkSize(columns, rows);
+
+
+            // add the data to the list.
+            List<string> list = new List<string>();
+            foreach (string row in rowList)
+            {
+                string[] entries = row.Split(",");
+                foreach (string entry in entries)
+                {
+                    if (entry != "")
+                        list.Add(entry);
                 }
             }
 
             return list;
         }
 
-        private string GetBaseDirectory(string currentDirectory)
+        private string GetBaseDirectory(string currentDirectory, string folderDesired="tilemap")
         {
             string baseDirectory = currentDirectory;
-            while (!Directory.Exists(Path.Combine(baseDirectory, "tilemap")))
+            while (!Directory.Exists(Path.Combine(baseDirectory, folderDesired)))
             {
                 baseDirectory = Directory.GetParent(baseDirectory).FullName;
             }

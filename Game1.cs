@@ -2,6 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Enumeration;
+using System.Linq;
+
 
 namespace tilemap
 {
@@ -9,8 +13,6 @@ namespace tilemap
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
-        private Texture2D _tileTexture;
 
         // window size
         private int windowWidth = 1000;
@@ -32,7 +34,7 @@ namespace tilemap
             _graphics.ApplyChanges();
 
             // create tile object
-            chunk = new Chunk();
+            chunk = new Chunk("City1","ChunkFiles","01.txt");
         }
 
         protected override void Initialize()
@@ -42,14 +44,8 @@ namespace tilemap
             base.Initialize();
 
             // create is under base.Initialize because we want to load the content first.
-            chunk.SetChunkPosition(new Vector2(100, 100));
+            chunk.SetChunkPosition(new Vector2(50, 50));
             chunk.SetTileSize(100);
-            chunk.SetChunkSize(5,5);
-            foreach (string s in chunk.GetChunkList())
-            {
-                Debug.WriteLine(s);
-
-            }
             chunk.Create();
             
         }
@@ -59,10 +55,7 @@ namespace tilemap
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            chunk.SetPossibleTexture("block1",Content.Load<Texture2D>("Tiles/block1"));
-
-            // load the chunk list
-            chunk.SetChunkList(chunk.ReadListFromFile("ChunkFiles/01.txt"));
+            chunk.Load(Content);
 
         }
 
@@ -85,5 +78,18 @@ namespace tilemap
 
             base.Draw(gameTime);
         }
+
+        #region Other Functions
+        private string GetBaseDirectory(string currentDirectory, string folderDesired = "tilemap")
+        {
+            string baseDirectory = currentDirectory;
+            while (!Directory.Exists(Path.Combine(baseDirectory, folderDesired)))
+            {
+                baseDirectory = Directory.GetParent(baseDirectory).FullName;
+            }
+            return baseDirectory;
+        }
+
+        #endregion
     }
 }
