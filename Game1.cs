@@ -79,17 +79,5 @@ namespace tilemap
             base.Draw(gameTime);
         }
 
-        #region Other Functions
-        private string GetBaseDirectory(string currentDirectory, string folderDesired = "tilemap")
-        {
-            string baseDirectory = currentDirectory;
-            while (!Directory.Exists(Path.Combine(baseDirectory, folderDesired)))
-            {
-                baseDirectory = Directory.GetParent(baseDirectory).FullName;
-            }
-            return baseDirectory;
-        }
-
-        #endregion
     }
 }
