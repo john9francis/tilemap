@@ -31,9 +31,9 @@ namespace tilemap
 
         private Dictionary<string, Texture2D> _possibleTextures = new();
 
-        private string _textureFolderName = "City1"; // the folder in the content that holds our tiles
-        private string _fileFolderName = "ChunkFiles"; // the folder that has our .txt file with our map
-        private string _fileName = "01.txt";
+        private string _textureFolderName; // the folder in the content that holds our tiles
+        private string _fileFolderName; // the folder that has our .txt file with our map
+        private string _fileName;
 
         //private Texture2D test = ContentManager.Content.Load<Texture2D>("City1/01");
             
@@ -140,7 +140,7 @@ namespace tilemap
             // setting the directory
             string currentDirectory = Directory.GetCurrentDirectory();
             string baseDirectory = GetBaseDirectory(currentDirectory);
-            string root = baseDirectory + "\\tilemap\\Content\\" + GetTextureFolder() + "\\" + "Building1" + "\\";
+            string root = baseDirectory + "\\tilemap\\Content\\" + GetTextureFolder() + "\\";
 
             // getting all the strings of the filenames
             var files = from file in Directory.EnumerateFiles(root) select file;
@@ -153,7 +153,7 @@ namespace tilemap
                 string fileName = seperatedFilename[0];
 
                 // now add this to the list of possible textures in the chunk class:
-                SetPossibleTexture(fileName, content.Load<Texture2D>(GetTextureFolder() + "/Building1/" + fileName));
+                SetPossibleTexture(fileName, content.Load<Texture2D>(GetTextureFolder() + fileName));
 
             }
         }

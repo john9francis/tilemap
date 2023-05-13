@@ -33,8 +33,8 @@ namespace tilemap
             _graphics.PreferredBackBufferHeight = windowHeight;
             _graphics.ApplyChanges();
 
-            // create tile object
-            chunk = new Chunk("City1","ChunkFiles","01.txt");
+            // create chunk object
+            chunk = new Chunk("City1/Building1/","ChunkFiles","01.txt");
         }
 
         protected override void Initialize()
