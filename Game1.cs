@@ -21,6 +21,8 @@ namespace tilemap
         // objects we are going to use:
         Chunk chunk;
 
+        Camera c = new Camera();
+
         public Game1()
         {
             // monogame stuff
@@ -35,6 +37,7 @@ namespace tilemap
 
             // create chunk object
             chunk = new Chunk("City1/Building1/","ChunkFiles","01.txt");
+
         }
 
         protected override void Initialize()
