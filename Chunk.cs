@@ -28,9 +28,9 @@ namespace tilemap
         // (next step would be having this in a file or something)
         private List<string> _map = new List<string>();
 
-        private Dictionary<string,Texture2D> _possibleTextures = new();
+        private Dictionary<string, Texture2D> _possibleTextures = new();
 
-        public Chunk(int width=5, int height = 5, int tileSize=100) 
+        public Chunk(int width = 5, int height = 5, int tileSize = 100)
         {
             _width = width;
             _height = height;
@@ -52,7 +52,7 @@ namespace tilemap
 
         public void SetPossibleTexture(string textureName, Texture2D texture)
         {
-            _possibleTextures.Add(textureName,texture);
+            _possibleTextures.Add(textureName, texture);
         }
 
         public void SetChunkPosition(Vector2 position)
@@ -97,7 +97,7 @@ namespace tilemap
                     Tile tile = new();
                     tile.SetTexture(_possibleTextures[_map[i]]);
                     tile.SetPosition(new Vector2(posX, posY));
-                    tile.SetHitbox(_tileSize,_tileSize);
+                    tile.SetHitbox(_tileSize, _tileSize);
                     _tiles.Add(tile);
                 }
 
@@ -111,7 +111,7 @@ namespace tilemap
             {
                 tile.Draw(spriteBatch);
             }
-            
+
         }
 
         // functions to save and load to file
@@ -126,11 +126,14 @@ namespace tilemap
             }
         }
 
-        public List<string> ReadListFromFile(string filePath)
+        public List<string> ReadListFromFile(string fileName)
         {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string baseDirectory = GetBaseDirectory(currentDirectory);
+            string filePath = Path.Combine(baseDirectory, "tilemap", fileName);
             List<string> list = new List<string>();
 
-            using (StreamReader reader = new StreamReader("C:/Users/john9/OneDrive/Desktop/My own projects/GitHub/tilemap/" + filePath))
+            using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -140,6 +143,16 @@ namespace tilemap
             }
 
             return list;
+        }
+
+        private string GetBaseDirectory(string currentDirectory)
+        {
+            string baseDirectory = currentDirectory;
+            while (!Directory.Exists(Path.Combine(baseDirectory, "tilemap")))
+            {
+                baseDirectory = Directory.GetParent(baseDirectory).FullName;
+            }
+            return baseDirectory;
         }
     }
 }
