@@ -20,13 +20,23 @@ namespace tilemap
         private float _hitBoxWidth;
         private float _hitBoxHeight;
 
+        private Matrix _transformMatrix;
+
         public Tile()
         {
             _hitBoxWidth = 50;
             _hitBoxHeight = 50;
+
+            _transformMatrix = Matrix.Identity;
         }
 
         #region Getters and Setters
+
+        public Vector2 GetPosition()
+        {
+            return _position;
+        }
+
         public void SetTexture(Texture2D texture)
         {
             _texture = texture;
@@ -39,6 +49,11 @@ namespace tilemap
         {
             _hitBoxWidth = width;
             _hitBoxHeight = height;
+        }
+
+        public void SetTransform(Matrix transform)
+        {
+            _transformMatrix = transform;
         }
         #endregion
 

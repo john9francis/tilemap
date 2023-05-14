@@ -21,8 +21,6 @@ namespace tilemap
         // objects we are going to use:
         Chunk chunk;
 
-        Camera c = new Camera();
-
         public Game1()
         {
             // monogame stuff
@@ -68,6 +66,37 @@ namespace tilemap
                 Exit();
 
             // TODO: Add your update logic here
+
+            // move the "camera" around with the arrow keys
+            var kstate = Keyboard.GetState();
+            if (kstate.IsKeyDown(Keys.A))
+            {
+                foreach (Tile t in chunk.GetTileList())
+                {
+                    t.SetPosition(new Vector2(t.GetPosition().X + 10, t.GetPosition().Y));
+                }
+            }
+            if (kstate.IsKeyDown(Keys.D))
+            {
+                foreach (Tile t in chunk.GetTileList())
+                {
+                    t.SetPosition(new Vector2(t.GetPosition().X - 10, t.GetPosition().Y));
+                }
+            }
+            if (kstate.IsKeyDown(Keys.W))
+            {
+                foreach (Tile t in chunk.GetTileList())
+                {
+                    t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y + 10));
+                }
+            }
+            if (kstate.IsKeyDown(Keys.S))
+            {
+                foreach (Tile t in chunk.GetTileList())
+                {
+                    t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y - 10));
+                }
+            }
 
             base.Update(gameTime);
         }

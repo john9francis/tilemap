@@ -99,6 +99,11 @@ namespace tilemap
             return _fileName;
         }
 
+        public List<Tile> GetTileList()
+        {
+            return _tiles;
+        }
+
         #endregion
 
         public void Create()
