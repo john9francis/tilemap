@@ -1,0 +1,3 @@
+# This file is in the form: ChunkFile, AssetFolder, Xposition, Yposition, Tile size, layer(0 is foreground)
+ChunkFiles/road1.txt,City1,0,300,100,0
+ChunkFiles/01.txt,City1/Building1,100,100,100,1

@@ -20,6 +20,7 @@ namespace tilemap
 
         // objects we are going to use:
         Chunk chunk;
+        Map map;
 
         public Game1()
         {
@@ -34,7 +35,8 @@ namespace tilemap
             _graphics.ApplyChanges();
 
             // create chunk object
-            chunk = new Chunk("City1/Building1/","ChunkFiles","01.txt");
+            chunk = new Chunk("City1/","ChunkFiles","road1.txt");
+            map = new();
 
         }
 
@@ -48,6 +50,8 @@ namespace tilemap
             chunk.SetChunkPosition(new Vector2(50, 50));
             chunk.SetTileSize(100);
             chunk.Create();
+
+            map.ReadFromFile("MapFiles/map1.txt");
             
         }
 
