@@ -36,18 +36,24 @@ namespace tilemap
         private string _fileName;
 
         //private Texture2D test = ContentManager.Content.Load<Texture2D>("City1/01");
-            
-        public Chunk(string textureFolder, string fileFolder, string fileName)
+
+        public Chunk(
+            string textureFolder,
+            string fileFolder,
+            string fileName,
+            int tileSize=100,
+            int chunkPosX=0,
+            int chunkPosY=0
+            )
         {
             // set the chunk based on the file
             _textureFolderName = textureFolder;
             _fileFolderName = fileFolder;
             _fileName = fileName;
+            SetTileSize(tileSize);
+            SetChunkPosition(new Vector2(chunkPosX, chunkPosY));
 
             _map = ReadListFromFile(_fileFolderName + "/" + _fileName);
-
-            // testing if I can get content in here
-            //Content.RootDirectory = "Content";
 
         }
 
@@ -108,7 +114,7 @@ namespace tilemap
 
         public void Create()
         {
-            // creates one chunk
+            // creates one chunk by creating many tiles and adding them to the _tiles list. 
             float posX = _position.X;
             float posY = _position.Y;
             int count = 1;
@@ -137,6 +143,44 @@ namespace tilemap
 
                 posX += _tileSize;
             }
+        }
+
+        #region Moving the chunk
+
+        public void MoveDown()
+        {
+            foreach (Tile t in GetTileList())
+            {
+                t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y - 10));
+            }
+        }
+        public void MoveUp()
+        {
+            foreach (Tile t in GetTileList())
+            {
+                t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y + 10));
+            }
+        }
+        public void MoveLeft()
+        {
+            foreach (Tile t in GetTileList())
+            {
+                t.SetPosition(new Vector2(t.GetPosition().X + 10, t.GetPosition().Y));
+            }
+        }
+        public void MoveRight()
+        {
+            foreach (Tile t in GetTileList())
+            {
+                t.SetPosition(new Vector2(t.GetPosition().X - 10, t.GetPosition().Y));
+            }
+        }
+
+        #endregion
+
+        public void Initialize()
+        {
+            Create();
         }
 
         public void Load(ContentManager content)

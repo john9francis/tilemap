@@ -6,6 +6,8 @@ using System.IO;
 using System.IO.Enumeration;
 using System.Linq;
 
+//NOTE: just put all the logic in Tile and then Chunk and Map are literally just groups.
+// Chunk and Map are so similar, they just need to loop through each one of the list. 
 
 namespace tilemap
 {
@@ -19,7 +21,9 @@ namespace tilemap
         private int windowHeight = 1000;
 
         // objects we are going to use:
-        Chunk chunk;
+        Chunk chunk1;
+        Chunk chunk2;
+        Chunk chunk3;
         Map map;
 
         public Game1()
@@ -35,8 +39,13 @@ namespace tilemap
             _graphics.ApplyChanges();
 
             // create chunk object
-            chunk = new Chunk("City1/","ChunkFiles","road1.txt");
+            chunk1 = new Chunk("City1/","ChunkFiles","road1.txt",100,0,500);
+            chunk2 = new Chunk("City1/Building1/", "ChunkFiles", "01.txt", 100, 0, 100);
+            chunk3 = new Chunk("City1/Building1/", "ChunkFiles", "01.txt", 100, 500, 100);
             map = new();
+            map.AddChunk(chunk1);
+            map.AddChunk(chunk2);
+            map.AddChunk(chunk3);
 
         }
 
@@ -46,12 +55,9 @@ namespace tilemap
 
             base.Initialize();
 
-            // create is under base.Initialize because we want to load the content first.
-            chunk.SetChunkPosition(new Vector2(50, 50));
-            chunk.SetTileSize(100);
-            chunk.Create();
+            map.Initialize();
 
-            map.ReadFromFile("MapFiles/map1.txt");
+            //map.ReadFromFile("MapFiles/map1.txt");
             
         }
 
@@ -60,7 +66,7 @@ namespace tilemap
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            chunk.Load(Content);
+            map.Load(Content);
 
         }
 
@@ -72,35 +78,37 @@ namespace tilemap
             // TODO: Add your update logic here
 
             // move the "camera" around with the arrow keys
+            // NOTE: move this into the chunk.update() method.
             var kstate = Keyboard.GetState();
             if (kstate.IsKeyDown(Keys.A))
             {
-                foreach (Tile t in chunk.GetTileList())
+                foreach (Chunk chunk in map.GetChunkList())
                 {
-                    t.SetPosition(new Vector2(t.GetPosition().X + 10, t.GetPosition().Y));
+                    chunk.MoveLeft();
                 }
             }
             if (kstate.IsKeyDown(Keys.D))
             {
-                foreach (Tile t in chunk.GetTileList())
+                foreach (Chunk chunk in map.GetChunkList())
                 {
-                    t.SetPosition(new Vector2(t.GetPosition().X - 10, t.GetPosition().Y));
+                    chunk.MoveRight();
                 }
             }
             if (kstate.IsKeyDown(Keys.W))
             {
-                foreach (Tile t in chunk.GetTileList())
+                foreach (Chunk chunk in map.GetChunkList())
                 {
-                    t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y + 10));
+                    chunk.MoveUp();
                 }
             }
             if (kstate.IsKeyDown(Keys.S))
             {
-                foreach (Tile t in chunk.GetTileList())
+                foreach (Chunk chunk in map.GetChunkList())
                 {
-                    t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y - 10));
+                    chunk.MoveDown();
                 }
             }
+            
 
             base.Update(gameTime);
         }
@@ -110,7 +118,7 @@ namespace tilemap
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            chunk.Draw(_spriteBatch);
+            map.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }

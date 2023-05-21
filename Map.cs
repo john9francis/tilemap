@@ -19,10 +19,50 @@ namespace tilemap
     internal class Map
     {
         // this is a class that combines a couple of chunks into a tilemap.
-        // it's gonna read from a file.
+        // it's gonna read from a file as well.
+
+        private List<Chunk> chunkList; 
         public Map()
         {
+            chunkList = new List<Chunk>();
+        }
 
+        public void AddChunk(Chunk c)
+        {
+            chunkList.Add(c);
+        }
+
+        public List<Chunk> GetChunkList() {  return chunkList; }
+
+        // the monogame functions
+        /*
+        public void Initialize();
+        public void Load();
+        public void Update();
+        public void Draw();
+        */
+
+        public void Initialize()
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.Initialize();
+            }
+        }
+        public void Load(ContentManager content)
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.Load(content);
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.Draw(spriteBatch);
+            }
         }
 
         public void ReadFromFile(string fileName)
