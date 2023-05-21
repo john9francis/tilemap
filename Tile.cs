@@ -11,23 +11,19 @@ namespace tilemap
     internal class Tile
     {
         // NOTE: the anchor point is the top left corner
-        // NOTE: the tile renders exactly as big as it's hitbox
 
 
         private Texture2D _texture;
         private Vector2 _position;
 
-        private float _hitBoxWidth;
-        private float _hitBoxHeight;
+        // assuming a square tile
+        private float _size;
 
-        private Matrix _transformMatrix;
-
-        public Tile()
+        public Tile(float positionX, float positionY, int size=50)
         {
-            _hitBoxWidth = 50;
-            _hitBoxHeight = 50;
+            _position = new Vector2(positionX, positionY);
+            _size = size;
 
-            _transformMatrix = Matrix.Identity;
         }
 
         #region Getters and Setters
@@ -45,16 +41,7 @@ namespace tilemap
         {
             _position = position;
         }
-        public void SetHitbox(float width, float height)
-        {
-            _hitBoxWidth = width;
-            _hitBoxHeight = height;
-        }
 
-        public void SetTransform(Matrix transform)
-        {
-            _transformMatrix = transform;
-        }
         #endregion
 
         public void Draw(SpriteBatch spriteBatch)
@@ -64,7 +51,7 @@ namespace tilemap
             Vector2 origin = Vector2.Zero;
 
             // NOTE: the scale is normalized. that's why it's divided by the texture width and height.
-            Vector2 scale = new Vector2(_hitBoxWidth / _texture.Width, _hitBoxHeight / _texture.Height);
+            Vector2 scale = new Vector2(_size / _texture.Width, _size / _texture.Height);
 
             spriteBatch.Begin();
 

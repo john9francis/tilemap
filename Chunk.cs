@@ -27,7 +27,7 @@ namespace tilemap
 
         private Vector2 _position = Vector2.Zero; // the position of the upper left hand corner of the chunk
 
-        private List<string> _map = new List<string>(); // each entry in the _map will be a tilename or a 0
+        private List<string> _fileMap = new List<string>(); // each entry in the _fileMap will be a tilename or a 0
 
         private Dictionary<string, Texture2D> _possibleTextures = new();
 
@@ -53,7 +53,7 @@ namespace tilemap
             SetTileSize(tileSize);
             SetChunkPosition(new Vector2(chunkPosX, chunkPosY));
 
-            _map = ReadListFromFile(_fileFolderName + "/" + _fileName);
+            _fileMap = ReadListFromFile(_fileFolderName + "/" + _fileName);
 
         }
 
@@ -82,12 +82,12 @@ namespace tilemap
 
         public void SetChunkList(List<string> list)
         {
-            _map = list;
+            _fileMap = list;
         }
 
         public List<string> GetChunkList()
         {
-            return _map;
+            return _fileMap;
         }
 
         public string GetTextureFolder()
@@ -118,7 +118,7 @@ namespace tilemap
             float posX = _position.X;
             float posY = _position.Y;
             int count = 1;
-            for (int i = 0; i < _map.Count; i++)
+            for (int i = 0; i < _fileMap.Count; i++)
             {
                 if (i == _width * count)
                 {
@@ -132,12 +132,10 @@ namespace tilemap
                     break;
                 }
 
-                if (_possibleTextures.ContainsKey(_map[i]))
+                if (_possibleTextures.ContainsKey(_fileMap[i]))
                 {
-                    Tile tile = new();
-                    tile.SetTexture(_possibleTextures[_map[i]]);
-                    tile.SetPosition(new Vector2(posX, posY));
-                    tile.SetHitbox(_tileSize, _tileSize);
+                    Tile tile = new Tile(posX, posY, _tileSize);
+                    tile.SetTexture(_possibleTextures[_fileMap[i]]);
                     _tiles.Add(tile);
                 }
 
