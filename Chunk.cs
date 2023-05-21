@@ -50,71 +50,23 @@ namespace tilemap
             _textureFolderName = textureFolder;
             _fileFolderName = fileFolder;
             _fileName = fileName;
-            SetTileSize(tileSize);
-            SetChunkPosition(new Vector2(chunkPosX, chunkPosY));
-
-            _fileMap = ReadListFromFile(_fileFolderName + "/" + _fileName);
-
-        }
-
-        #region Getters and Setters
-
-        public void SetChunkSize(int width, int height)
-        {
-            _width = width;
-            _height = height;
-        }
-
-        public void SetTileSize(int tileSize)
-        {
             _tileSize = tileSize;
+            _position = new Vector2(chunkPosX, chunkPosY);
+
+            SetChunkSizeFromData(_fileFolderName + "/" + _fileName);
+
+            _fileMap = MakeTileNameList(_fileFolderName + "/" + _fileName);
+
         }
 
-        public void SetPossibleTexture(string textureName, Texture2D texture)
+        private void SetPossibleTexture(string textureName, Texture2D texture)
         {
             _possibleTextures.Add(textureName, texture);
         }
 
-        public void SetChunkPosition(Vector2 position)
-        {
-            _position = position;
-        }
-
-        public void SetChunkList(List<string> list)
-        {
-            _fileMap = list;
-        }
-
-        public List<string> GetChunkList()
-        {
-            return _fileMap;
-        }
-
-        public string GetTextureFolder()
-        {
-            return _textureFolderName;
-        }
-
-        public string GetFileFolder()
-        {
-            return _fileFolderName;
-        }
-
-        public string GetFile()
-        {
-            return _fileName;
-        }
-
-        public List<Tile> GetTileList()
-        {
-            return _tiles;
-        }
-
-        #endregion
-
         public void Create()
         {
-            // creates one chunk by creating many tiles and adding them to the _tiles list. 
+            // creates one chunk by creating tiles and adding them to the _tiles list. 
             float posX = _position.X;
             float posY = _position.Y;
             int count = 1;
@@ -147,34 +99,36 @@ namespace tilemap
 
         public void MoveDown()
         {
-            foreach (Tile t in GetTileList())
+            foreach (Tile t in _tiles)
             {
                 t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y - 10));
             }
         }
         public void MoveUp()
         {
-            foreach (Tile t in GetTileList())
+            foreach (Tile t in _tiles)
             {
                 t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y + 10));
             }
         }
         public void MoveLeft()
         {
-            foreach (Tile t in GetTileList())
+            foreach (Tile t in _tiles)
             {
                 t.SetPosition(new Vector2(t.GetPosition().X + 10, t.GetPosition().Y));
             }
         }
         public void MoveRight()
         {
-            foreach (Tile t in GetTileList())
+            foreach (Tile t in _tiles)
             {
                 t.SetPosition(new Vector2(t.GetPosition().X - 10, t.GetPosition().Y));
             }
         }
 
         #endregion
+
+        #region MonoGame game functions
 
         public void Initialize()
         {
@@ -187,7 +141,7 @@ namespace tilemap
             // setting the directory
             string currentDirectory = Directory.GetCurrentDirectory();
             string baseDirectory = GetBaseDirectory(currentDirectory);
-            string root = baseDirectory + "\\tilemap\\Content\\" + GetTextureFolder() + "\\";
+            string root = baseDirectory + "\\tilemap\\Content\\" + _textureFolderName + "\\";
 
             // getting all the strings of the filenames
             var files = from file in Directory.EnumerateFiles(root) select file;
@@ -200,7 +154,7 @@ namespace tilemap
                 string fileName = seperatedFilename[0];
 
                 // now add this to the list of possible textures in the chunk class:
-                SetPossibleTexture(fileName, content.Load<Texture2D>(GetTextureFolder() + fileName));
+                SetPossibleTexture(fileName, content.Load<Texture2D>(_textureFolderName + "/" + fileName));
 
             }
         }
@@ -214,7 +168,9 @@ namespace tilemap
 
         }
 
-        
+        #endregion
+
+        #region Reading and writing to the file
 
         // functions to save and load to file
         public void WriteListToFile(List<string> list, string filePath)
@@ -228,26 +184,16 @@ namespace tilemap
             }
         }
 
-        public List<string> ReadListFromFile(string fileName)
+        private void SetChunkSizeFromData(string fileName)
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string baseDirectory = GetBaseDirectory(currentDirectory);
-            string filePath = Path.Combine(baseDirectory, "tilemap", fileName);
-            List<string> rowList = new List<string>();
+            // looks at the file map and sets the chunk size:
 
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    rowList.Add(line);
-                }
-            }
+            List<string> rowList = ReadListFromFile(fileName);
 
             // get the width and height of the data & set the chunk size
             int rows = rowList.Count;
             string[] firstRow = rowList[0].Split(',');
-            
+
             // don't forget to get rid of empty characters in the first row:
             List<string> firstRow_ = new();
             for (int i = 0; i < firstRow.Count(); i++)
@@ -257,10 +203,16 @@ namespace tilemap
             }
             int columns = firstRow_.Count();
 
-            SetChunkSize(columns, rows);
+            _width = columns;
+            _height = rows;
+        }
 
-
+        public List<string> MakeTileNameList(string fileName)
+        {
             // add the data to the list.
+
+            List<string> rowList = ReadListFromFile(fileName);
+
             List<string> list = new List<string>();
             foreach (string row in rowList)
             {
@@ -275,8 +227,34 @@ namespace tilemap
             return list;
         }
 
+        public List<string> ReadListFromFile(string fileName)
+        {
+            // reads a file and returns a list of rows
+
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string baseDirectory = GetBaseDirectory(currentDirectory);
+            string filePath = Path.Combine(baseDirectory, "tilemap", fileName);
+            List<string> rowList = new List<string>();
+
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    rowList.Add(line);
+                }
+            }
+
+            return rowList;
+        }
+
+        #endregion
+
+
         private string GetBaseDirectory(string currentDirectory, string folderDesired="tilemap")
         {
+            // no matter what computer this is on, it should find the right folder. this helps for loading content. 
+
             string baseDirectory = currentDirectory;
             while (!Directory.Exists(Path.Combine(baseDirectory, folderDesired)))
             {
@@ -285,5 +263,7 @@ namespace tilemap
             return baseDirectory;
         }
     }
+
+
 }
 

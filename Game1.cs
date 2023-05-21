@@ -39,9 +39,9 @@ namespace tilemap
             _graphics.ApplyChanges();
 
             // create chunk object
-            chunk1 = new Chunk("City1/","ChunkFiles","road1.txt",100,0,500);
-            chunk2 = new Chunk("City1/Building1/", "ChunkFiles", "01.txt", 100, 0, 100);
-            chunk3 = new Chunk("City1/Building1/", "ChunkFiles", "01.txt", 100, 500, 100);
+            chunk1 = new Chunk("City1","ChunkFiles","road1.txt",100,0,500);
+            chunk2 = new Chunk("City1/Building1", "ChunkFiles", "01.txt", 100, 0, 100);
+            chunk3 = new Chunk("City1/Building1", "ChunkFiles", "01.txt", 100, 500, 100);
             map = new();
             map.AddChunk(chunk1);
             map.AddChunk(chunk2);
