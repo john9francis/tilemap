@@ -44,6 +44,33 @@ namespace tilemap
 
         #endregion
 
+        #region Moving
+
+        public void MoveUp()
+        {
+            _position = new Vector2(GetPosition().X, GetPosition().Y - 10);
+        }
+
+        public void MoveDown()
+        {
+            _position = new Vector2(GetPosition().X, GetPosition().Y + 10);
+
+        }
+
+        public void MoveLeft()
+        {
+            _position = new Vector2(GetPosition().X - 10, GetPosition().Y);
+
+        }
+
+        public void MoveRight()
+        {
+            _position = new Vector2(GetPosition().X + 10, GetPosition().Y);
+
+        }
+
+        #endregion
+
         public void Draw(SpriteBatch spriteBatch)
         {
             Color color = Color.White;

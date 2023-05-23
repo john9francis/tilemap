@@ -97,32 +97,34 @@ namespace tilemap
 
         #region Moving the chunk
 
-        public void MoveDown()
-        {
-            foreach (Tile t in _tiles)
-            {
-                t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y - 10));
-            }
-        }
         public void MoveUp()
         {
             foreach (Tile t in _tiles)
             {
-                t.SetPosition(new Vector2(t.GetPosition().X, t.GetPosition().Y + 10));
+                t.MoveUp();
             }
         }
+
+        public void MoveDown()
+        {
+            foreach (Tile t in _tiles)
+            {
+                t.MoveDown();
+            }
+        }
+        
         public void MoveLeft()
         {
             foreach (Tile t in _tiles)
             {
-                t.SetPosition(new Vector2(t.GetPosition().X + 10, t.GetPosition().Y));
+                t.MoveLeft();
             }
         }
         public void MoveRight()
         {
             foreach (Tile t in _tiles)
             {
-                t.SetPosition(new Vector2(t.GetPosition().X - 10, t.GetPosition().Y));
+                t.MoveRight();
             }
         }
 
@@ -157,6 +159,11 @@ namespace tilemap
                 SetPossibleTexture(fileName, content.Load<Texture2D>(_textureFolderName + "/" + fileName));
 
             }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

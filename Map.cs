@@ -22,6 +22,7 @@ namespace tilemap
         // it's gonna read from a file as well.
 
         private List<Chunk> chunkList; 
+
         public Map()
         {
             chunkList = new List<Chunk>();
@@ -57,6 +58,12 @@ namespace tilemap
             }
         }
 
+        public void Update(GameTime gameTime)
+        {
+            // move the "camera" around with the arrow keys
+            
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Chunk c in chunkList)
@@ -64,6 +71,42 @@ namespace tilemap
                 c.Draw(spriteBatch);
             }
         }
+
+        #region Movements
+
+        public void MoveUp()
+        {
+            foreach(Chunk c in chunkList)
+            {
+                c.MoveUp();
+            }
+        }
+        public void MoveDown()
+        {
+            foreach(Chunk c in chunkList)
+            {
+                c.MoveDown();
+            }
+        }
+        public void MoveLeft()
+        {
+            foreach(Chunk c in chunkList)
+            {
+                c.MoveLeft();
+            }
+        }
+        public void MoveRight()
+        {
+            foreach(Chunk c in chunkList)
+            {
+                c.MoveRight();
+            }
+        }
+
+
+
+        #endregion
+
 
         public void ReadFromFile(string fileName)
         {

@@ -77,38 +77,24 @@ namespace tilemap
 
             // TODO: Add your update logic here
 
-            // move the "camera" around with the arrow keys
-            // NOTE: move this into the chunk.update() method.
+            // camera movements: if camera moves the map moves in the opposite way
             var kstate = Keyboard.GetState();
-            if (kstate.IsKeyDown(Keys.A))
-            {
-                foreach (Chunk chunk in map.GetChunkList())
-                {
-                    chunk.MoveLeft();
-                }
-            }
-            if (kstate.IsKeyDown(Keys.D))
-            {
-                foreach (Chunk chunk in map.GetChunkList())
-                {
-                    chunk.MoveRight();
-                }
-            }
             if (kstate.IsKeyDown(Keys.W))
             {
-                foreach (Chunk chunk in map.GetChunkList())
-                {
-                    chunk.MoveUp();
-                }
+                map.MoveDown();
             }
             if (kstate.IsKeyDown(Keys.S))
             {
-                foreach (Chunk chunk in map.GetChunkList())
-                {
-                    chunk.MoveDown();
-                }
+                map.MoveUp();
             }
-            
+            if (kstate.IsKeyDown(Keys.A))
+            {
+                map.MoveRight();
+            }
+            if (kstate.IsKeyDown(Keys.D))
+            {
+                map.MoveLeft();
+            }
 
             base.Update(gameTime);
         }
