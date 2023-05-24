@@ -21,9 +21,6 @@ namespace tilemap
         private int windowHeight = 1000;
 
         // objects we are going to use:
-        Chunk chunk1;
-        Chunk chunk2;
-        Chunk chunk3;
         Map map;
 
         public Game1()
@@ -38,14 +35,9 @@ namespace tilemap
             _graphics.PreferredBackBufferHeight = windowHeight;
             _graphics.ApplyChanges();
 
-            // create chunk object
-            chunk1 = new Chunk("City1","ChunkFiles","road1.txt",100,0,500);
-            chunk2 = new Chunk("City1/Building1", "ChunkFiles", "01.txt", 100, 0, 100);
-            chunk3 = new Chunk("City1/Building1", "ChunkFiles", "01.txt", 100, 500, 100);
+            // create map object
             map = new();
-            map.AddChunk(chunk1);
-            map.AddChunk(chunk2);
-            map.AddChunk(chunk3);
+            map.CreateChunks("MapFiles/map1.txt");
 
         }
 

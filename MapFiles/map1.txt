@@ -1,3 +1,12 @@
-# This file is in the form: ChunkFile, AssetFolder, Xposition, Yposition, Tile size, layer(0 is foreground)
-ChunkFiles/road1.txt,City1,0,300,100,0
-ChunkFiles/01.txt,City1/Building1,100,100,100,1
+# This file is in the form: 
+#	Chunk, 
+#	Content folder name, 
+#	txt file folder name, 
+#	txt file name, 
+#	tile size, 
+#	x coordinate of the chunk, 
+#	y coordinate of the chunk.
+#
+Chunk,City1,ChunkFiles,road1.txt,100,0,500
+Chunk,City1/Building1,ChunkFiles,01.txt,100,0,100
+Chunk,City1/Building1,ChunkFiles,01.txt,100,500,100
