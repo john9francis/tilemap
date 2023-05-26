@@ -22,6 +22,7 @@ namespace tilemap
 
         // objects we are going to use:
         Map map;
+        Chunk path;
 
         public Game1()
         {
@@ -38,6 +39,7 @@ namespace tilemap
             // create map object
             map = new();
             map.CreateChunks("MapFiles/map1.txt");
+            path = new Chunk("path1","ChunkFiles","path.txt",100);
 
         }
 
@@ -49,8 +51,8 @@ namespace tilemap
 
             map.Initialize();
 
-            //map.ReadFromFile("MapFiles/map1.txt");
-            
+            path.Initialize();
+
         }
 
         protected override void LoadContent()
@@ -59,6 +61,8 @@ namespace tilemap
 
             // TODO: use this.Content to load your game content here
             map.Load(Content);
+
+            path.Load(Content);
 
         }
 
@@ -73,19 +77,19 @@ namespace tilemap
             var kstate = Keyboard.GetState();
             if (kstate.IsKeyDown(Keys.W))
             {
-                map.MoveDown();
+                path.MoveDown();
             }
             if (kstate.IsKeyDown(Keys.S))
             {
-                map.MoveUp();
+                path.MoveUp();
             }
             if (kstate.IsKeyDown(Keys.A))
             {
-                map.MoveRight();
+                path.MoveRight();
             }
             if (kstate.IsKeyDown(Keys.D))
             {
-                map.MoveLeft();
+                path.MoveLeft();
             }
 
             base.Update(gameTime);
@@ -96,7 +100,7 @@ namespace tilemap
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            map.Draw(_spriteBatch);
+            path.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
