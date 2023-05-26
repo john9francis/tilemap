@@ -162,10 +162,16 @@ namespace tilemap
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line[0] != '#')
+                    try
                     {
-                        rowList.Add(line);
-                        Debug.WriteLine(line);
+                        if (line[0] != '#')
+                        {
+                            rowList.Add(line);
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        // it must be a blank line, so do nothing
                     }
                 }
             }

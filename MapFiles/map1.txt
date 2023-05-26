@@ -8,5 +8,6 @@
 #	y coordinate of the chunk.
 #
 Chunk,City1,ChunkFiles,road1.txt,100,0,500
+
 Chunk,City1/Building1,ChunkFiles,01.txt,100,0,100
 Chunk,City1/Building1,ChunkFiles,01.txt,100,500,100
