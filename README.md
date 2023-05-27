@@ -48,8 +48,16 @@ Once you have created a couple of different chunks, create a map .txt file. This
 
 Start the line with "Chunk". This let's the program know that you want to create a chunk. Then, the file follows this format:
 ```
-Chunk,
+Chunk, Content folder name, txt file folder name, txt file name, tile size, x coordinate of the chunk, y coordinate of the chunk.
 ```
+Descriptions of each thing:
+- Content folder name: this is the folder within the special MonoGame "Content" folder where you have all the files for this specific chunk. For example, you may have put the red brick files in a folder called, "redBuilding" inside of the content folder.
+- txt file folder name: this is the folder where your chunk .txt file is located. In this sample project, the chunk files are found in the ChunkFiles folder, but maybe you create a folder called "Buildings" or "Lawns" or whatever types of chunks you are creating.
+- txt file name: this is the name of your chunk .txt file. For example, you might have named it "redBrickBuilding.txt"
+- tile size: This is the number of pixels of each tile. To have a very large chunk, you can put like 500 or something. The width and height of the tile will be this value.
+- x coordinate of the chunk, y coordinate of the chunk: This is an x,y coordinate where the top left hand corner of the chunk will go, relative to the top left corner of your window. Note: you can put negative values here to have your chunk render to the left or above the window.
+
+## 5. Put your tilemap into the game
 
 # Useful webistes
 * [Stackoverflow: How to resize a texture](https://stackoverflow.com/questions/4349590/resize-and-load-a-texture2d-in-xna)
