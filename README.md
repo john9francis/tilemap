@@ -41,9 +41,15 @@ The chunk will render as if you had input:
 02,02,02,02,03,03,03,
 03,00,00,00,00,00,00,
 ```
+If you want a different shaped chunk, make sure to utilize zeroes to cushin in the filenames so you can visualize what you are doing. 
  
 ## 4. Create a map .txt file
-Once you have created a couple of different chunks, create a map .txt file. This one is a little bit different than a chunk .txt file. The map file gives you more freedom. Chunk files force all the tiles to be the same exact size. For your tilemap, you can have chunks of different sizes and shapes 
+Once you have created a couple of different chunks, create a map .txt file. This one is a little bit different than a chunk .txt file. The map file gives you more freedom. Chunk files force all the tiles to be the same exact size. For your tilemap, you can have chunks of different sizes and shapes, close together or far apart, it's your choice. Here is how you do the map .txt file:
+
+Start the line with "Chunk". This let's the program know that you want to create a chunk. Then, the file follows this format:
+```
+Chunk,
+```
 
 # Useful webistes
 * [Stackoverflow: How to resize a texture](https://stackoverflow.com/questions/4349590/resize-and-load-a-texture2d-in-xna)
