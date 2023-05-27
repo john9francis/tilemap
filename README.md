@@ -9,7 +9,11 @@ I did this project using Visual Studio and the MonoGame framework. It is coded i
 # How to use:
 
 To use this asset, follow the following steps: (for more detail, see [these detailed instructions](instructions.md))
-
+1. Get some images you want to use as tiles
+2. Import those images into the MonoGame content pipeline
+3. Create some chunk .txt files
+4. Create a map .txt file
+5. Impliment the Map object into the main game file using the map .txt file
 
 
 # Useful webistes
