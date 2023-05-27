@@ -1,3 +1,6 @@
+# TileMap class
+completed: 5/26/2023
+
 # Overview
 
 This project includes a useful "TileMap" class to use for games made with the MonoGame framework. 
@@ -24,3 +27,10 @@ To use this asset, follow the following steps: (for more detail, see [these deta
 # to do:
 * instead of the CreateChunks method in the map class, simply put the file in the constructor
 * make the chunk txt files more robust like the TileMap files. For example, allow comments using #, and allow blank lines. 
+
+# Add-ons:
+* 5/26/2023 Map now has "MoveUp, MoveDown, MoveLeft, MoveRight" functions for moving the "camera"
+
+# Future work:
+* Procedural generation of tiles or chunks!
+* Load and unload chunks at runtime instead of loading it all at once
