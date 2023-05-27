@@ -119,7 +119,7 @@ Run the code, and enjoy!
 
 ## Using a chunk instead of a tilemap
 P.S. The chunk class acts almost exactly like the tilemap class. if you prefer to just make one giant chunk for your tilemap, you can do so. Everything about implimenting it into the main Game1 file is the same except for initializing the variable. To initialize a Chunk object, you need to pass in the following parameters:
-```
+```cs
 public Chunk(
             string textureFolder,
             string fileFolder,
