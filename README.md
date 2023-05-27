@@ -25,7 +25,7 @@ To use this asset, follow the following steps: (for more detail, see [these deta
 * [Using the MGCB editor](https://docs.monogame.net/articles/content/using_mgcb_editor.html)
 
 # to do:
-* instead of the CreateChunks method in the map class, simply put the file in the constructor
+* instead of the CreateChunks method in the map class, simply put the file name in the constructor
 * make the chunk txt files more robust like the TileMap files. For example, allow comments using #, and allow blank lines. 
 
 # Add-ons:
