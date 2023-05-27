@@ -8,7 +8,7 @@ I did this project using Visual Studio and the MonoGame framework. It is coded i
 
 # How to use:
 
-To use this asset, follow the following steps:
+To use this asset, follow the following steps: (for more detail, see [link](linkgoeshere))
 
 ## 1. Get some images you want to use as tiles
 (some sample ones are found in the project.) These will be put into the MonoGame content pipeline, so make sure the images are an acceptable format.
@@ -59,6 +59,82 @@ Descriptions of each thing:
 
 ## 5. Put your tilemap into the game
 
+Now that you have done the hard stuff, it's time to put your tilemap into the game. If you are familiar with how the MonoGame framework works, this should be pretty intuitive.
+
+1. Create and initialize the Map variable in your game class:
+```cs
+public class Game1 : Game
+    {
+ 
+        private Map map;
+
+        public Game1()
+        {
+            // create map object
+            map = new();
+            map.CreateChunks("MapFiles/map1.txt");
+```
+2. Impliment the "CreateChunks" method right below where you initialized the map object
+```cs
+public Game1()
+        {
+            // create map object
+            map = new();
+            map.CreateChunks("MapFiles/map1.txt");
+            
+```
+3. In each of the MonoGame built in functions, (Initialize, Load, Update, and Draw,) call the same functions in the map object:
+```cs
+protected override void Initialize()
+{
+  base.Initialize();
+  
+  // note: it is important that map.Initialize goes BELOW base.Initialize().
+  map.Initialize();
+}
+
+protected override void LoadContent()
+{
+  map.Load(Content);
+}
+
+protected override void Update(GameTime gameTime)
+{
+  map.Update(gameTime);
+  
+  base.Update(gameTime);
+}
+
+protected override void Draw(GameTime gameTime)
+{
+  // note: here we have to pass our SpriteBatch type object to the draw method.
+  map.Draw(_spriteBatch);
+  
+  base.Draw(gameTime);
+}
+
+```
+
+Run the code, and enjoy!
+
+## Using a chunk instead of a tilemap
+P.S. The chunk class acts almost exactly like the tilemap class. if you prefer to just make one giant chunk for your tilemap, you can do so. Everything about implimenting it into the main Game1 file is the same except for initializing the variable. To initialize a Chunk object, you need to pass in the following parameters:
+```
+public Chunk(
+            string textureFolder,
+            string fileFolder,
+            string fileName,
+            int tileSize=100,
+            int chunkPosX=0,
+            int chunkPosY=0
+            )
+```
+It's basically the exact same thing that you put into the TileMap .txt file, but you have to code it in instead. 
+
 # Useful webistes
 * [Stackoverflow: How to resize a texture](https://stackoverflow.com/questions/4349590/resize-and-load-a-texture2d-in-xna)
 * [Using the MGCB editor](https://docs.monogame.net/articles/content/using_mgcb_editor.html)
+
+# to do:
+* instead of the CreateChunks method in the map class, simply put the file in the constructor
+* make the chunk txt files more robust like the TileMap files. For example, allow comments using #, and allow blank lines. 
