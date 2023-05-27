@@ -28,84 +28,6 @@ namespace tilemap
             chunkList = new List<Chunk>();
         }
 
-        public void AddChunk(Chunk c)
-        {
-            chunkList.Add(c);
-        }
-
-        public List<Chunk> GetChunkList() { return chunkList; }
-
-        // the monogame functions
-        /*
-        public void Initialize();
-        public void Load();
-        public void Update();
-        public void Draw();
-        */
-
-        public void Initialize()
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.Initialize();
-            }
-        }
-        public void Load(ContentManager content)
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.Load(content);
-            }
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            // move the "camera" around with the arrow keys
-
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.Draw(spriteBatch);
-            }
-        }
-
-        #region Movements
-
-        public void MoveUp()
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.MoveUp();
-            }
-        }
-        public void MoveDown()
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.MoveDown();
-            }
-        }
-        public void MoveLeft()
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.MoveLeft();
-            }
-        }
-        public void MoveRight()
-        {
-            foreach (Chunk c in chunkList)
-            {
-                c.MoveRight();
-            }
-        }
-
-
-
-        #endregion
 
         public void CreateChunks(string fileName)
         {
@@ -147,6 +69,75 @@ namespace tilemap
             }
         }
 
+
+        #region MonoGame Functions
+        public void Initialize()
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.Initialize();
+            }
+        }
+        public void Load(ContentManager content)
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.Load(content);
+            }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            // move the "camera" around with the arrow keys
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.Draw(spriteBatch);
+            }
+        }
+
+        #endregion
+
+        #region Movements
+
+        public void MoveUp()
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.MoveUp();
+            }
+        }
+        public void MoveDown()
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.MoveDown();
+            }
+        }
+        public void MoveLeft()
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.MoveLeft();
+            }
+        }
+        public void MoveRight()
+        {
+            foreach (Chunk c in chunkList)
+            {
+                c.MoveRight();
+            }
+        }
+
+
+
+        #endregion
+
+        #region Reading and Writing from file
         public List<string> ReadFromFile(string fileName)
         {
             // reads the specialized type of txt file that is for TileMaps.
@@ -188,5 +179,7 @@ namespace tilemap
             }
             return baseDirectory;
         }
+
+        #endregion
     }
 }

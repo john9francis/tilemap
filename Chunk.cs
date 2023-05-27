@@ -255,9 +255,7 @@ namespace tilemap
             return rowList;
         }
 
-        #endregion
-
-
+       
         private string GetBaseDirectory(string currentDirectory, string folderDesired="tilemap")
         {
             // no matter what computer this is on, it should find the right folder. this helps for loading content. 
@@ -269,6 +267,9 @@ namespace tilemap
             }
             return baseDirectory;
         }
+
+        #endregion
+
     }
 
 

@@ -6,8 +6,13 @@
 #	tile size, 
 #	x coordinate of the chunk, 
 #	y coordinate of the chunk.
-#
-Chunk,City1,ChunkFiles,road1.txt,100,0,500
 
-Chunk,City1/Building1,ChunkFiles,01.txt,100,0,100
-Chunk,City1/Building1,ChunkFiles,01.txt,100,500,100
+# LAYER 1:
+Chunk,City1/Building1,ChunkFiles,building1.txt,100,0,105
+Chunk,City1/Building1,ChunkFiles,building1.txt,100,500,105
+Chunk,City1/Building1,ChunkFiles,building2.txt,100,1000,-295
+Chunk,City1/Building1,ChunkFiles,building1.txt,100,1500,105
+
+
+# LAYER 2:
+Chunk,City1,ChunkFiles,road1.txt,100,0,500

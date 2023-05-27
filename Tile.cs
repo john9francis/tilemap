@@ -11,7 +11,7 @@ namespace tilemap
     internal class Tile
     {
         // NOTE: the anchor point is the top left corner
-
+        
 
         private Texture2D _texture;
         private Vector2 _position;
@@ -26,46 +26,33 @@ namespace tilemap
 
         }
 
-        #region Getters and Setters
-
-        public Vector2 GetPosition()
-        {
-            return _position;
-        }
-
         public void SetTexture(Texture2D texture)
         {
             _texture = texture;
         }
-        public void SetPosition(Vector2 position)
-        {
-            _position = position;
-        }
-
-        #endregion
 
         #region Moving
 
         public void MoveUp()
         {
-            _position = new Vector2(GetPosition().X, GetPosition().Y - 10);
+            _position = new Vector2(_position.X, _position.Y - 10);
         }
 
         public void MoveDown()
         {
-            _position = new Vector2(GetPosition().X, GetPosition().Y + 10);
+            _position = new Vector2(_position.X, _position.Y + 10);
 
         }
 
         public void MoveLeft()
         {
-            _position = new Vector2(GetPosition().X - 10, GetPosition().Y);
+            _position = new Vector2(_position.X - 10, _position.Y);
 
         }
 
         public void MoveRight()
         {
-            _position = new Vector2(GetPosition().X + 10, GetPosition().Y);
+            _position = new Vector2(_position.X + 10, _position.Y);
 
         }
 

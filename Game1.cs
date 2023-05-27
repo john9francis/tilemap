@@ -6,8 +6,6 @@ using System.IO;
 using System.IO.Enumeration;
 using System.Linq;
 
-//NOTE: just put all the logic in Tile and then Chunk and Map are literally just groups.
-// Chunk and Map are so similar, they just need to loop through each one of the list. 
 
 namespace tilemap
 {
@@ -17,12 +15,11 @@ namespace tilemap
         private SpriteBatch _spriteBatch;
 
         // window size
-        private int windowWidth = 1000;
-        private int windowHeight = 1000;
+        private readonly int windowWidth = 1000;
+        private readonly int windowHeight = 1000;
 
         // objects we are going to use:
-        Map map;
-        Chunk path;
+        private Map map;
 
         public Game1()
         {
@@ -39,7 +36,6 @@ namespace tilemap
             // create map object
             map = new();
             map.CreateChunks("MapFiles/map1.txt");
-            path = new Chunk("path1","ChunkFiles","path.txt",100);
 
         }
 
@@ -51,8 +47,6 @@ namespace tilemap
 
             map.Initialize();
 
-            path.Initialize();
-
         }
 
         protected override void LoadContent()
@@ -60,9 +54,8 @@ namespace tilemap
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            map.Load(Content);
 
-            path.Load(Content);
+            map.Load(Content);
 
         }
 
@@ -73,23 +66,24 @@ namespace tilemap
 
             // TODO: Add your update logic here
 
-            // camera movements: if camera moves the map moves in the opposite way
+            // camera movements: if camera moves the map moves in the opposite way.
+            // This gives the feeling of "exploring" the map.
             var kstate = Keyboard.GetState();
             if (kstate.IsKeyDown(Keys.W))
             {
-                path.MoveDown();
+                map.MoveDown();
             }
             if (kstate.IsKeyDown(Keys.S))
             {
-                path.MoveUp();
+                map.MoveUp();
             }
             if (kstate.IsKeyDown(Keys.A))
             {
-                path.MoveRight();
+                map.MoveRight();
             }
             if (kstate.IsKeyDown(Keys.D))
             {
-                path.MoveLeft();
+                map.MoveLeft();
             }
 
             base.Update(gameTime);
@@ -100,7 +94,8 @@ namespace tilemap
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            path.Draw(_spriteBatch);
+
+            map.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
