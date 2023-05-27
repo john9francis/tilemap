@@ -13,4 +13,4 @@ To use this asset, follow the following steps:
 
 # Useful webistes
 * [Stackoverflow: How to resize a texture](https://stackoverflow.com/questions/4349590/resize-and-load-a-texture2d-in-xna)
-*[Using the MonoGame content pipeline](https://docs.monogame.net/articles/content/using_mgcb_editor.html)
+* [Using the MonoGame content pipeline](https://docs.monogame.net/articles/content/using_mgcb_editor.html)
