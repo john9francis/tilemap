@@ -8,7 +8,7 @@ I did this project using Visual Studio and the MonoGame framework. It is coded i
 
 # How to use:
 
-To use this asset, follow the following steps: (for more detail, see [link](linkgoeshere))
+To use this asset, follow the following steps: (for more detail, see [these detailed instructions](instructions.md))
 
 ## 1. Get some images you want to use as tiles
 (some sample ones are found in the project.) These will be put into the MonoGame content pipeline, so make sure the images are an acceptable format.
