@@ -33,4 +33,4 @@ To use this asset, follow the following steps: (for more detail, see [these deta
 
 # Future work:
 * Procedural generation of tiles or chunks!
-* Load and unload chunks at runtime instead of loading it all at once
+* Load and unload chunks as they become visible instead of loading it all at once
