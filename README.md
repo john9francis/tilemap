@@ -14,6 +14,7 @@ To use this asset, follow the following steps: (for more detail, see [these deta
 3. Create some chunk .txt files
 4. Create a map .txt file
 5. Impliment the Map object into the main game file using the map .txt file
+6. Enjoy your TileMap!
 
 
 # Useful webistes
